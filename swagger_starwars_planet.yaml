@@ -1,0 +1,114 @@
+---
+openapi: 3.0.1
+info:
+  title: Starwars - API de Planetas
+  version: v1
+servers:
+  - url: https://urlbase/dev/data
+    description: Ambiente de Desarrollo
+  - url: https://urlbase/uat/data
+    description: Ambiente de UAT
+tags:
+  - name: Planets
+    description: Gestión de planetas con Integración con SWAPI y/o planetas registrados localmente.
+paths:
+  "/urlbase/dev/data":
+    post:
+      tags:
+      - Planets
+      summary: Registrar un planeta.     
+      description: 'Registra un planeta en la base de datos dynamoDb local. Los unicos datos opcionales son : superficieAgua y poblacion.'
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/Planet"
+      responses:
+        '201':
+          description: Datos creados con éxito.
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/MsgResponse"     
+        '400':
+          description: Los datos enviados no pasaron la validación.              
+        '500':
+          description: Error en el servidor. No se pudo recuperar la información solicitada.
+    get:
+      tags:
+      - Planets
+      summary: Recuperar la información de planetas.
+      description: 'Recupera la información de planetas, si se envia el parámetro id recuperara el planeta especifico de SWAPI, sino recuperará toda los planetas registrados localmente.'
+      parameters:
+      - name: id
+        in: query
+        description: 'Código identificador del planeta en las Apis de SWAPI. El valor del id debe ser un número entero positivo.'
+        style: form
+        required: false        
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Se recupera la información del planeta.
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/MsgResponse"                
+        '400':
+          description: El parámetro id debe ser un número entero.          
+        '500':
+          description: Error en el servidor. No se pudo recuperar la información solicitada.          
+components:
+  schemas:
+    Planet:
+      type: object
+      properties:
+        nombre:
+          type: string
+          nullable: false
+          example: "planeta x"
+        clima:
+          type: string
+          nullable: false
+          example: "calido"          
+        periodoRotacion:
+          type: number
+          nullable: false     
+          example: 10.00         
+        periodoOrbital:
+          type: number
+          nullable: false
+          example: 20.00              
+        diametro:
+          type: number
+          nullable: false
+          example: 2.00              
+        gravedad:
+          type: string
+          nullable: false
+          example: "gravedad"              
+        terreno:
+          type: string
+          nullable: false
+          example: "arena"              
+        superficieAgua:
+          type: number
+          nullable: true
+          example: 5             
+        poblacion:
+          type: number
+          nullable: true
+          example: 1111     
+      additionalProperties: false
+    MsgResponse:
+      type: object
+      properties:   
+        status:
+          description: Representa el código http de resultado o error.         
+        message:
+          type: string
+          description: Mensaje de respuesta de la api.
+     
+
