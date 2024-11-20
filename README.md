@@ -1,4 +1,6 @@
-# Serverless - AWS Node.js Typescript
+# Starwars - API de Planetas
+
+## Serverless - AWS Node.js Typescript
 
 Este proyecto ha sido generado utilizando la plantilla `aws-nodejs-typescript` del [framework Serverless](https://www.serverless.com/).
 
@@ -57,7 +59,7 @@ El cuerpo de la petición debe incluir los siguientes atributos en formato JSON:
 }
 ```
 
-### Estructura del proyecto
+## Estructura del proyecto
 
 La base del código del proyecto esta principalmente ubicado en la carpeta `src` . Esta carpeta se divide en los siguientes directorios:
 
